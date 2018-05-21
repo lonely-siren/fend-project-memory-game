@@ -1,20 +1,25 @@
 /*
  * Create a list that holds all of your cards
  */
- const cardsList = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb",
- "fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
+ const cardsList = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
- function createHTMLCard(cardName){
-     $("ul.deck").append(`<li class="card"><i class="fa ${cardName}"></i></li>`);
- }
+
+// Variables
+let gameStarted = false;
+let starsCount = [];
+let moves = 0;
+
+function createHTMLCard(cardName){
+    $("ul.deck").append(`<li class="card"><i class="fa ${cardName}"></i></li>`);
+}
 
  function loadCardsToDeck(){
-     shuffle(cardsList.forEach(createHTMLCard));
+     shuffle(cardsList.concat(cardsList)).forEach(createHTMLCard);
  }
 
  // Shuffle function from http://stackoverflow.com/a/2450976
@@ -28,12 +33,21 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
 }
 
+
+
+
 function startGame(){
     loadCardsToDeck();
+    initiateStars();
+}
+
+function initiateStars(){
+    for (let i=0; i<3; i++){
+        $(".stars").append(`<li><i class="fa fa-star"></i></li>`);
+    }
 }
 
 //Start game on page ready
