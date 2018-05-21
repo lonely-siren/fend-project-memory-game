@@ -1,16 +1,23 @@
 /*
  * Create a list that holds all of your cards
  */
-
-
+ const cardsList = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb",
+ "fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+ function createHTMLCard(cardName){
+     $("ul.deck").append(`<li class="card"><i class="fa ${cardName}"></i></li>`);
+ }
 
-// Shuffle function from http://stackoverflow.com/a/2450976
+ function loadCardsToDeck(){
+     shuffle(cardsList.forEach(createHTMLCard));
+ }
+
+ // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -24,6 +31,19 @@ function shuffle(array) {
 
     return array;
 }
+
+function startGame(){
+    loadCardsToDeck();
+}
+
+//Start game on page ready
+$(document).ready(function(){
+    startGame();
+    //$("#restart").click(restartGame);
+    // vex.defaultOptions.className = 'vex-theme-os';
+    // vex.dialog.buttons.YES.text = 'Yes!';
+    // vex.dialog.buttons.NO.text = 'No';
+});
 
 
 /*
