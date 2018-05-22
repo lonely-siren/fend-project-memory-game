@@ -92,7 +92,7 @@ function checkCards(){
 // add move to scoreboard and take away stars if many moves have been made
 function addMove(){
   moves++;
-  $("#moves").HTML(moves);
+  $("#moves").(moves);
    if (moves === 10 || moves === 15){
        reduceStar();
    }
