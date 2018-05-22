@@ -91,14 +91,17 @@ function checkCards(){
 
 // add move to scoreboard and take away stars if many moves have been made
 function addMove(){
-  moves++;
-  $("#moves").(moves);
-   if (moves === 10 || moves === 15){
-       reduceStar();
-   }
+    moves += 1;
+    $("#moves").html(moves);
+    if (moves === 10 || moves === 15){
+        removeStar();
+    }
 }
-
-
+// take star
+function removeStar(){
+    let stars = $(".fa-star");
+    $(stars[stars.length-1]).toggleClass("fa-star fa-star-o");
+}
 // function to read the class of the card to see if it is open, matched or closed
 function cardClass(card){
     return card[0].firstChild.className;
