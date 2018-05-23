@@ -128,7 +128,7 @@ function startGame(){
 //Start game on page ready
 $(document).ready(function(){
     startGame();
-    //$("#restart").click(restartGame);
+    $("#restart").click(restartGame);
     // vex.defaultOptions.className = 'vex-theme-os';
     // vex.dialog.buttons.YES.text = 'Yes!';
     // vex.dialog.buttons.NO.text = 'No';
@@ -139,6 +139,17 @@ function endGame(){
   var totalTime = (endTime - startTime)/1000;
 
   console.log("It took you "+totalTime+" seconds to finish the game");
+}
+
+function restartGame(){
+  $("ul.deck").html("");
+  $(".stars").html("");
+  loadCardsToDeck();
+  initiateStars();
+  moves = -1;
+  addMove();
+  startTime = 0;
+  endTime = 0;
 }
 /*
  * set up the event listener for a card. If a card is clicked:
