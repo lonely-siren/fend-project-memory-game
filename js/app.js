@@ -8,24 +8,15 @@
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
-
 // Variables
 let gameStarted = false;
 let moves = 0;
 let startTime = 0;
 let endTime = 0;
+let timer = 0;
 let openedCards = [];
 let pairsFound = 0;
-
-// create cards using the class provided #card
-function createHTMLCard(cardName){
-    $("ul.deck").append(`<li class="card"><i class="fa ${cardName}"></i></li>`);
-}
-
-// load the deck onto the dom
- function loadCardsToDeck(){
-     shuffle(cardsList.concat(cardsList)).forEach(createHTMLCard);
- }
+let timeElapsed;
 
  // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -41,52 +32,40 @@ function shuffle(array) {
     return array;
 }
 
-// set starting time
-function setStartTime(){
-    startTime = performance.now();
-}
-
-// event for card click
-function clickCard(event){
-    // check if any card is open
-     let classes = $(this).attr("class");
-     if (classes.search('open') * classes.search('match') !== 1){
-         // both should be -1
-         return;
-     }
-    // start game if if hasn't been started and set the starting time
-    if (!gameStarted) {
-        gameStarted = true;
-        setStartTime();
-    }
-    // cards can be flipped
-    if (openedCards.length < 2){
-        $(this).toggleClass("open show");
-        openedCards.push($(this));
-    }
-    // check if cards match
-    if (openedCards.length === 2){
-        checkCards();
-    }
+// function to read the class of the card to see if it is open, matched or closed
+function cardClass(card){
+    return card.firstChild.className;
 }
 
 // check open cards when count = 2
 function checkCards(){
-    if (cardClass(openedCards[0]) === cardClass(openedCards[1])){
+  let card1 = openedCards[0];
+  let card2 = openedCards[1]
+  if (cardClass(card1[0]) === cardClass(card2[0])){
         pairsFound++;
         openedCards.forEach(function(card){
-            card.toggleClass("open show match");
-        })
-    } else {
-        openedCards.forEach(function(card){
-                card.toggleClass("open show");
-            });
-        }
+          card.animateCss('flash', function(){
+             card.toggleClass("open show match");
+         });
+     });
+    }
+  else {
+      openedCards.forEach(function(card){
+        card.animateCss('wobble', function(){
+          card.toggleClass("open show");
+      });
+              });
+    }
     openedCards = [];
     addMove();
     if (pairsFound === 8){
         endGame();
     }
+}
+
+// set starting time
+function setStartTime(){
+    startTime = performance.now();
 }
 
 // add move to scoreboard and take away stars if many moves have been made
@@ -97,14 +76,56 @@ function addMove(){
         removeStar();
     }
 }
+
+// start timer
+function startTimer(){
+    timer += 1;
+    $("#timer").html(timer);
+    timeElapsed = setTimeout(startTimer, 1000);
+}
+
+function stopTime() {
+    clearTimeout(timeElapsed);
+}
+
+// event for card click
+function clickCard(event){
+    // check if card is already open when one is not found it is -1
+     let classes = $(this).attr("class");
+     if (classes.search('open') * classes.search('match') !== 1){
+         return;
+     }
+    // start game if if hasn't been started and set the starting time
+    if (!gameStarted) {
+        gameStarted = true;
+        startTimer();
+    }
+    // check if more than 2 cards are flipped
+    if (openedCards.length < 2){
+        $(this).toggleClass("open show");
+        openedCards.push($(this));
+    }
+    //
+    if (openedCards.length === 2)
+    {
+      checkCards();
+    }
+}
+
+// create cards using the class provided #card
+function createHTMLCard(cardName){
+    $("ul.deck").append(`<li class="card"><i class="fa ${cardName}"></i></li>`);
+}
+
+// load the deck onto the dom
+ function loadCardsToDeck(){
+     shuffle(cardsList.concat(cardsList)).forEach(createHTMLCard);
+ }
+
 // take star
 function removeStar(){
     let stars = $(".fa-star");
     $(stars[stars.length-1]).toggleClass("fa-star fa-star-o");
-}
-// function to read the class of the card to see if it is open, matched or closed
-function cardClass(card){
-    return card[0].firstChild.className;
 }
 
 // initiate the stars to 3 whan game starts
@@ -129,27 +150,32 @@ function startGame(){
 $(document).ready(function(){
     startGame();
     $("#restart").click(restartGame);
-    // vex.defaultOptions.className = 'vex-theme-os';
-    // vex.dialog.buttons.YES.text = 'Yes!';
-    // vex.dialog.buttons.NO.text = 'No';
 });
 
 function endGame(){
   endTime = performance.now();
   var totalTime = (endTime - startTime)/1000;
-
   console.log("It took you "+totalTime+" seconds to finish the game");
+  $("#timer").html(0);
+  timeElapsed = timer;
+  $("#timer").html(0);
+  timer=0;
+  stopTime();
 }
 
 function restartGame(){
   $("ul.deck").html("");
   $(".stars").html("");
-  loadCardsToDeck();
-  initiateStars();
+  openedCards= [];
   moves = -1;
+  gameStarted = false;
   addMove();
   startTime = 0;
   endTime = 0;
+  $("#timer").html(0);
+  timer=0;
+  stopTime();
+  startGame();
 }
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -161,3 +187,18 @@ function restartGame(){
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+ // load animateCss
+// taken from https://github.com/daneden/animate.css/#usage
+$.fn.extend({
+    animateCss: function (animationName, callback) {
+        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+        this.addClass('animated ' + animationName).one(animationEnd, function () {
+            $(this).removeClass('animated ' + animationName);
+            if (callback) {
+                callback();
+            }
+        });
+        return this;
+    }
+});
