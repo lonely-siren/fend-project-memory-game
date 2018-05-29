@@ -156,12 +156,29 @@ function endGame(){
   endTime = performance.now();
   var totalTime = (endTime - startTime)/1000;
   console.log("It took you "+totalTime+" seconds to finish the game");
-  $("#timer").html(0);
-  timeElapsed = timer;
-  $("#timer").html(0);
-  timer=0;
+  //$("#timer").html(0);
   stopTime();
+  showmodal();
 }
+
+//Modal taken from https://robinparisi.github.io/tingle/
+
+function showmodal(){
+  var modal = new tingle.modal({
+    footer: true,
+    stickyFooter: false,
+    closeMethods: ['overlay', 'button', 'escape'],
+  });
+modal.setContent('<h1>You won!</br> </h1>'+ 'It took you '+timeElapsed + ' seconds and '+ moves + ' moves,</br>  and you earned '+ $(".fa-star").length + ' stars.</br>'+'Would you like to play again?');
+modal.addFooterBtn('Yes', 'tingle-btn tingle-btn--primary', function() {
+    restartGame();
+    modal.close();
+  });
+modal.addFooterBtn('No', 'tingle-btn tingle-btn--primary', function() {
+  modal.close();
+});
+modal.open();
+};
 
 function restartGame(){
   $("ul.deck").html("");
