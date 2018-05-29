@@ -72,7 +72,7 @@ function setStartTime(){
 function addMove(){
     moves += 1;
     $("#moves").html(moves);
-    if (moves === 10 || moves === 15){
+    if (moves === 10 || moves === 14 || moves === 18 || moves === 22){
         removeStar();
     }
 }
@@ -130,7 +130,7 @@ function removeStar(){
 
 // initiate the stars to 3 whan game starts
 function initiateStars(){
-    for (let i=0; i<3; i++){
+    for (let i=0; i<5; i++){
         $(".stars").append(`<li><i class="fa fa-star"></i></li>`);
     }
 }
@@ -169,7 +169,7 @@ function showmodal(){
     stickyFooter: false,
     closeMethods: ['overlay', 'button', 'escape'],
   });
-modal.setContent('<h1>You won!</br> </h1>'+ 'It took you '+timeElapsed + ' seconds and '+ moves + ' moves,</br>  and you earned '+ $(".fa-star").length + ' stars.</br>'+'Would you like to play again?');
+modal.setContent('<h1>You won!</br> </h1>'+ 'It took you '+timeElapsed + ' seconds and '+ moves + ' moves,</br>  and your star rating was '+ $(".fa-star").length + ' star(s).</br>'+'Would you like to play again?');
 modal.addFooterBtn('Yes', 'tingle-btn tingle-btn--primary', function() {
     restartGame();
     modal.close();
