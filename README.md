@@ -17,12 +17,12 @@ and two cards are flipped face up over each turn. The object of the game is to t
   * <14 moves = 4 stars
   * <18 moves = 3 stars
   * <22 moves = 2 stars
-  * 22 moves or more = 1 star
+  * 22 moves or more =   1 star
 ## Contributing
 
 This repository is the starter code for _all_ Udacity students.
 Starter project https://github.com/udacity/fend-project-memory-game
-###Dependencies
+## Dependencies
  * Animation - https://daneden.github.io/animate.css/
  * Modal - https://robinparisi.github.io/tingle/
  * jQuery version 3.3.1 loaded from https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
