@@ -169,7 +169,7 @@ function showmodal(){
     stickyFooter: false,
     closeMethods: ['overlay', 'button', 'escape'],
   });
-modal.setContent('<h1>You won!</br> </h1>'+ 'It took you '+timeElapsed + ' seconds and '+ moves + ' moves,</br>  and your star rating was '+ $(".fa-star").length + ' star(s).</br>'+'Would you like to play again?');
+modal.setContent('<h1>You won!</br> </h1>'+ 'It took you '+ timer + ' seconds and '+ moves + ' moves,</br>  and your star rating was '+ $(".fa-star").length + ' star(s).</br>'+'Would you like to play again?');
 modal.addFooterBtn('Yes', 'tingle-btn tingle-btn--primary', function() {
     restartGame();
     modal.close();
