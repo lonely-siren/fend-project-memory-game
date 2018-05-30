@@ -11,8 +11,11 @@ or simply Pairs, is a card game in which all of the cards are laid face down on 
 and two cards are flipped face up over each turn. The object of the game is to turn over pairs of matching cards.
 
 1- Click on two cards to find a match.
+
 2- If the cards match you have found a pair, if they don't, turn over two other cards.
+
 3- The star rating goes as follow:
+
   * <10 moves = 5 stars
   * <14 moves = 4 stars
   * <18 moves = 3 stars
