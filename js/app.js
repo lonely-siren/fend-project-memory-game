@@ -189,6 +189,7 @@ function restartGame(){
   addMove();
   startTime = 0;
   endTime = 0;
+  pairsFound = 0;
   $("#timer").html(0);
   timer=0;
   stopTime();
